@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{super()}} - {{title}}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<p>Для дальнейшей работы необходима авторизация на сайте или создайте учетную запись по кнопке "Регистрация"</p>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{category}}">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<div class="container mt-5">
+    <h2>Авторизация</h2>
+    <form method="post" action="{{url_for('login')}}">
+        {{form.csrf_token}}
+        {% for field in form if field.name != 'csrf_token' %}
+        <div class="mb-3">
+            {{field.label}}<br>
+            {{field}}
+            {% if field.errors %}
+            <ul class="alert alert-danger">
+                {% for error in field.errors %}
+                <li>{{error}}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <input type="submit" name="Login" class="btn btn-primary">
+        <a href="{{url_for('registration')}}" type="button" class="btn btn-primary">Регистрация</a>
+    </form>
+
+
+</div>
+{% endblock %}

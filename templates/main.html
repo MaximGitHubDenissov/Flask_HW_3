@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{super()}} - {{title}}
+{% endblock %}
+
+{% block header %}
+{{super()}}
+{% endblock %}
+
+{% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{category}}">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<h2>Привет {{user}}!</h2>
+{{super()}}
+<form action="/">
+    <button>Выход</button>
+</form>
+{% endblock %}

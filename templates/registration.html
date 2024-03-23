@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{super()}} - {{title}}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<p>Для дальнейшей работы необходимо создать учетную запись</p>
+<div class="container mt-5">
+    <h2>Регистрация</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{category}}">
+         {{ message }}
+    </div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<form method="post" action="{{url_for('registration')}}">
+
+    {{form.csrf_token}}
+    {% for field in form if field.name != 'csrf_token' %}
+    <div class="mb-3">
+        {{field.label}}<br>
+        {{field}}
+        {% if field.errors %}
+        <ul class="alert alert-danger">
+            {% for error in field.errors %}
+            <li>{{error}}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    <input type="submit" name="Регистрация" class="btn btn-primary">
+</form>
+</div>
+{% endblock %}
